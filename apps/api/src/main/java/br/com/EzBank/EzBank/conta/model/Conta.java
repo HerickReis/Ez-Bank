@@ -9,8 +9,9 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "t_conta")
 @Inheritance(strategy = InheritanceType.JOINED) // Define uma estratégia de herança unindo as tabelas por id
-@DiscriminatorColumn(name = "tp_conta") // Coluna que identifica o tipo de conta (Fisica / Juridica)
-public class Conta {
+@DiscriminatorColumn(name = "tipo_conta") // Coluna que identifica o tipo de conta (Fisica / Juridica)
+public abstract class Conta {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,
             generator = "SEQ_CONTA"
@@ -29,9 +30,6 @@ public class Conta {
     @JsonBackReference // Indica que o objeto tem uma lista de filhos, entoa ele inclui na lista
     private Usuario usuario;
 
-    @Column(name = "vl_saldo_atual", nullable = false, precision = 10, scale = 2)
-    private BigDecimal saldoAtual;
-
     public Long getId() {
         return id;
     }
@@ -48,11 +46,4 @@ public class Conta {
         this.usuario = usuario;
     }
 
-    public BigDecimal getSaldoAtual() {
-        return saldoAtual;
-    }
-
-    public void setSaldoAtual(BigDecimal saldoAtual) {
-        this.saldoAtual = saldoAtual;
-    }
 }

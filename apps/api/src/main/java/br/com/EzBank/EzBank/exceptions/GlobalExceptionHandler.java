@@ -25,9 +25,19 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ErrorResponse> handleDateFormatException(DateFormatException ex) {
         ErrorResponse error = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
-                "Formato de Data Inválido, o formato deve ser dd/yy/AA",
+                "Formato de Data Inválido",
                 ex.getMessage()
         );
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleRuntimeException(UserNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                "Usuário não encontrado",
+                ex.getMessage()
+        );
+        return  ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 }

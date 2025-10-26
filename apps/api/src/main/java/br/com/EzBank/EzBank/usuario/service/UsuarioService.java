@@ -1,6 +1,7 @@
 package br.com.EzBank.EzBank.usuario.service;
 
 import br.com.EzBank.EzBank.exceptions.BusinessException;
+import br.com.EzBank.EzBank.exceptions.UserNotFoundException;
 import br.com.EzBank.EzBank.usuario.model.Usuario;
 import br.com.EzBank.EzBank.usuario.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class UsuarioService {
             return usuario.get();
         }
 
-        throw new RuntimeException("Usuario não encontrado");
+        throw new UserNotFoundException("Usuario não encontrado");
     }
 
 
@@ -60,7 +61,7 @@ public class UsuarioService {
             return usuarioRepository.save(usuario);
         }
 
-        throw new RuntimeException("Usuário não encontrado");
+        throw new UserNotFoundException("Usuário não encontrado");
 
     }
 
