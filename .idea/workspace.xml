@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="AutoImportSettings">
-    <option name="autoReloadType" value="SELECTIVE" />
-  </component>
   <component name="ChangeListManager">
     <list default="true" id="fb33b54a-917f-4731-8b7b-625dc402e7bc" name="Changes" comment="Initial" />
     <option name="SHOW_DIALOG" value="false" />
@@ -12,7 +9,6 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -43,12 +39,7 @@
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "F:/Faculdade/Projetos/Fintech - EzBank/EzBank final",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
@@ -69,7 +60,6 @@
       <updated>1761506813220</updated>
       <workItem from="1761506814348" duration="69000" />
       <workItem from="1761506990238" duration="29000" />
-      <workItem from="1761507192606" duration="318000" />
     </task>
     <servers />
   </component>
