@@ -1,7 +1,7 @@
 package br.com.EzBank.EzBank.exceptions;
 
 
-import br.com.EzBank.EzBank.dto.ErrorResponse;
+import br.com.EzBank.EzBank.exceptions.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

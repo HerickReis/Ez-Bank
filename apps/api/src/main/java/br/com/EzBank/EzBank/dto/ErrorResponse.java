@@ -1,4 +1,4 @@
-package br.com.EzBank.EzBank.dto;
+package br.com.EzBank.EzBank.exceptions.dto;
 
 public class ErrorResponse {
     private int status;

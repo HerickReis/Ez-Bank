@@ -1,6 +1,6 @@
 package br.com.EzBank.EzBank.conta.service;
 
-import br.com.EzBank.EzBank.conta.dto.ContaDTO;
+import br.com.EzBank.EzBank.dto.ContaDTO;
 import br.com.EzBank.EzBank.conta.model.Conta;
 import br.com.EzBank.EzBank.conta.model.ContaFisica;
 import br.com.EzBank.EzBank.conta.model.ContaJuridica;

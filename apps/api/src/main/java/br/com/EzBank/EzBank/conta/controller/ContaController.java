@@ -1,6 +1,6 @@
 package br.com.EzBank.EzBank.conta.controller;
 
-import br.com.EzBank.EzBank.conta.dto.ContaDTO;
+import br.com.EzBank.EzBank.dto.ContaDTO;
 import br.com.EzBank.EzBank.conta.model.Conta;
 import br.com.EzBank.EzBank.conta.service.ContaService;
 import org.springframework.beans.factory.annotation.Autowired;

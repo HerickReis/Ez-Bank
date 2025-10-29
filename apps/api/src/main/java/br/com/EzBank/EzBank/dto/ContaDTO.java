@@ -1,4 +1,4 @@
-package br.com.EzBank.EzBank.conta.dto;
+package br.com.EzBank.EzBank.dto;
 
 import jakarta.validation.constraints.NotNull;
 

@@ -1,10 +1,13 @@
 package br.com.EzBank.EzBank.conta.model;
 
+import br.com.EzBank.EzBank.transacao.model.Transacao;
 import br.com.EzBank.EzBank.usuario.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "t_conta")
@@ -29,6 +32,17 @@ public abstract class Conta {
             foreignKey = @ForeignKey(name = "fk_conta_usuario"))  // Apenas nomeia a constraint no banco
     @JsonBackReference // Indica que o objeto tem uma lista de filhos, entoa ele inclui na lista
     private Usuario usuario;
+
+    @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Transacao> transacoes = new ArrayList<>();
+
+    public List<Transacao> getTransacoes() {
+        return transacoes;
+    }
+
+    public void setTransacoes(List<Transacao> transacoes) {
+        this.transacoes = transacoes;
+    }
 
     public Long getId() {
         return id;
