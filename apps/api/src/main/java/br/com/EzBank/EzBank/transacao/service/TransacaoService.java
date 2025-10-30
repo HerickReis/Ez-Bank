@@ -8,6 +8,7 @@ import br.com.EzBank.EzBank.conta.model.ContaFisica; // Importar
 import br.com.EzBank.EzBank.conta.model.ContaJuridica; // Importar
 import br.com.EzBank.EzBank.conta.repository.ContaRepository;
 import br.com.EzBank.EzBank.dto.TransacaoDTO;
+import br.com.EzBank.EzBank.dto.TransacaoResponseDTO;
 import br.com.EzBank.EzBank.exceptions.BusinessException;
 import br.com.EzBank.EzBank.transacao.model.Transacao;
 import br.com.EzBank.EzBank.transacao.repository.TransacaoRepository;
@@ -30,103 +31,6 @@ public class TransacaoService {
     private ContaRepository contaRepository;
     @Autowired
     private RepositoryCategoria categoriaRepository;
-
-    // Cria e salva uma nova transação, ATUALIZANDO o saldo da conta correta.
-    @Transactional // Garante que tudo será salvo ou não
-    public Transacao salvar(TransacaoDTO dto) {
-
-        Conta conta = contaRepository.findById(dto.getIdConta())
-                .orElseThrow(() -> new BusinessException("Conta com ID " + dto.getIdConta() + " não encontrada."));
-
-        Categoria categoria = categoriaRepository.findById(dto.getIdCategoria())
-                .orElseThrow(() -> new BusinessException("Categoria com ID " + dto.getIdCategoria() + " não encontrada."));
-
-
-        if ("SAIDA".equalsIgnoreCase(dto.getTipo())) {
-            // Se for SAIDA, subtraí
-            subtrairSaldo(conta, dto.getValor());
-        } else if ("ENTRADA".equalsIgnoreCase(dto.getTipo())) {
-            // Se for ENTRADA, soma
-            somarSaldo(conta, dto.getValor());
-        } else {
-            throw new BusinessException("Tipo de transação inválido: " + dto.getTipo() + ". Use 'ENTRADA' ou 'SAIDA'.");
-        }
-
-        // 3. Criação da Entidade Transacao
-        Transacao transacao = new Transacao();
-        transacao.setConta(conta);
-        transacao.setCategoria(categoria);
-        transacao.setTipo(dto.getTipo());
-        transacao.setValor(dto.getValor());
-        transacao.setDataTransacao(dto.getDataTransacao() != null ? dto.getDataTransacao() : LocalDate.now());
-
-        return transacaoRepository.save(transacao);
-    }
-
-
-    // Exclui uma transação e ESTORNA o valor na conta correta.
-    @Transactional
-    public void excluir(Long idTransacao) {
-        Transacao transacao = transacaoRepository.findById(idTransacao)
-                .orElseThrow(() -> new BusinessException("Transação com ID " + idTransacao + " não encontrada."));
-
-        // Estorno de valor
-        if ("SAIDA".equalsIgnoreCase(transacao.getTipo())) { // Se for uma SAIDA, devolver o valor a conta
-            somarSaldo(transacao.getConta(), transacao.getValor());
-
-        } else if ("ENTRADA".equalsIgnoreCase(transacao.getTipo())) { // Se for uma ENTRADA, subtrair o valor da conta.
-            subtrairSaldo(transacao.getConta(), transacao.getValor());
-        }
-
-        transacaoRepository.delete(transacao);
-    }
-
-
-    @Transactional
-    public Transacao atualizar(Long idTransacao, TransacaoDTO dto) {
-
-        Transacao transacaoExistente = transacaoRepository.findById(idTransacao)
-                .orElseThrow(() -> new BusinessException("Transação com ID " + idTransacao + " não encontrada."));
-
-
-        BigDecimal valorAntigo = transacaoExistente.getValor();
-        String tipoAntigo = transacaoExistente.getTipo();
-        Conta contaAntiga = transacaoExistente.getConta();
-
-
-        if ("SAIDA".equalsIgnoreCase(tipoAntigo)) {
-            somarSaldo(contaAntiga, valorAntigo);
-        } else if ("ENTRADA".equalsIgnoreCase(tipoAntigo)) {
-            subtrairSaldo(contaAntiga, valorAntigo);
-        }
-
-
-        Conta contaParaAplicar = contaAntiga;
-        if (!dto.getIdConta().equals(contaAntiga.getId())) {
-            contaParaAplicar = contaRepository.findById(dto.getIdConta())
-                    .orElseThrow(() -> new BusinessException("Nova conta com ID " + dto.getIdConta() + " não encontrada."));
-        }
-
-        Categoria categoriaParaAplicar = transacaoExistente.getCategoria();
-        if (!dto.getIdCategoria().equals(categoriaParaAplicar.getPkIdCategoria())) {
-            categoriaParaAplicar = categoriaRepository.findById(dto.getIdCategoria())
-                    .orElseThrow(() -> new BusinessException("Nova categoria com ID " + dto.getIdCategoria() + " não encontrada."));
-        }
-
-        if ("SAIDA".equalsIgnoreCase(dto.getTipo())) {
-            subtrairSaldo(contaParaAplicar, dto.getValor());
-        } else if ("ENTRADA".equalsIgnoreCase(dto.getTipo())) {
-            somarSaldo(contaParaAplicar, dto.getValor());
-        }
-
-        transacaoExistente.setConta(contaParaAplicar);
-        transacaoExistente.setCategoria(categoriaParaAplicar);
-        transacaoExistente.setTipo(dto.getTipo());
-        transacaoExistente.setValor(dto.getValor());
-        transacaoExistente.setDataTransacao(dto.getDataTransacao() != null ? dto.getDataTransacao() : LocalDate.now());
-
-        return transacaoRepository.save(transacaoExistente);
-    }
 
 
     // Método auxiliar para subtrair o saldo, descobrindo o tipo da conta
@@ -168,14 +72,118 @@ public class TransacaoService {
     }
 
 
-    public Transacao buscarPorId(Long id) {
-        return transacaoRepository.findById(id)
-                .orElseThrow(() -> new BusinessException("Conta com ID " + id + " não encontrada."));
+    // Cria e salva uma nova transação, ATUALIZANDO o saldo da conta correta.
+    @Transactional
+    public TransacaoResponseDTO salvar(TransacaoDTO dto) {
+
+        Conta conta = contaRepository.findById(dto.getIdConta())
+                .orElseThrow(() -> new BusinessException("Conta com ID " + dto.getIdConta() + " não encontrada."));
+
+        Categoria categoria = categoriaRepository.findById(dto.getIdCategoria())
+                .orElseThrow(() -> new BusinessException("Categoria com ID " + dto.getIdCategoria() + " não encontrada."));
+
+        if ("SAIDA".equalsIgnoreCase(dto.getTipo())) {
+            subtrairSaldo(conta, dto.getValor());
+        } else if ("ENTRADA".equalsIgnoreCase(dto.getTipo())) {
+            somarSaldo(conta, dto.getValor());
+        } else {
+            throw new BusinessException("Tipo de transação inválido: " + dto.getTipo() + ". Use 'ENTRADA' ou 'SAIDA'.");
+        }
+
+        Transacao transacao = new Transacao();
+        transacao.setConta(conta);
+        transacao.setCategoria(categoria);
+        transacao.setTipo(dto.getTipo());
+        transacao.setValor(dto.getValor());
+        transacao.setDataTransacao(dto.getDataTransacao() != null ? dto.getDataTransacao() : LocalDate.now());
+
+        // Salva a entidade
+        Transacao transacaoSalva = transacaoRepository.save(transacao);
+
+        // Converte e retorna o DTO de Resposta
+        return new TransacaoResponseDTO(transacaoSalva);
     }
 
-    public List<Transacao> buscarTodos() {
-        return transacaoRepository.findAll();
 
+    // Exclui uma transação e ESTORNA o valor na conta correta.
+    @Transactional
+    public void excluir(Long idTransacao) {
+        Transacao transacao = transacaoRepository.findByIdCompleto(idTransacao)
+                .orElseThrow(() -> new BusinessException("Transação com ID " + idTransacao + " não encontrada."));
+
+        if ("SAIDA".equalsIgnoreCase(transacao.getTipo())) {
+            somarSaldo(transacao.getConta(), transacao.getValor());
+
+        } else if ("ENTRADA".equalsIgnoreCase(transacao.getTipo())) {
+            subtrairSaldo(transacao.getConta(), transacao.getValor());
+        }
+
+        transacaoRepository.delete(transacao);
     }
 
+
+    @Transactional
+    public TransacaoResponseDTO atualizar(Long idTransacao, TransacaoDTO dto) {
+
+        Transacao transacaoExistente = transacaoRepository.findByIdCompleto(idTransacao)
+                .orElseThrow(() -> new BusinessException("Transação com ID " + idTransacao + " não encontrada."));
+
+        BigDecimal valorAntigo = transacaoExistente.getValor();
+        String tipoAntigo = transacaoExistente.getTipo();
+        Conta contaAntiga = transacaoExistente.getConta();
+
+        if ("SAIDA".equalsIgnoreCase(tipoAntigo)) {
+            somarSaldo(contaAntiga, valorAntigo);
+        } else if ("ENTRADA".equalsIgnoreCase(tipoAntigo)) {
+            subtrairSaldo(contaAntiga, valorAntigo);
+        }
+
+        Conta contaParaAplicar = contaAntiga;
+        if (!dto.getIdConta().equals(contaAntiga.getId())) {
+            contaParaAplicar = contaRepository.findById(dto.getIdConta())
+                    .orElseThrow(() -> new BusinessException("Nova conta com ID " + dto.getIdConta() + " não encontrada."));
+        }
+
+        Categoria categoriaParaAplicar = transacaoExistente.getCategoria();
+        if (!dto.getIdCategoria().equals(categoriaParaAplicar.getPkIdCategoria())) {
+            categoriaParaAplicar = categoriaRepository.findById(dto.getIdCategoria())
+                    .orElseThrow(() -> new BusinessException("Nova categoria com ID " + dto.getIdCategoria() + " não encontrada."));
+        }
+
+        if ("SAIDA".equalsIgnoreCase(dto.getTipo())) {
+            subtrairSaldo(contaParaAplicar, dto.getValor());
+        } else if ("ENTRADA".equalsIgnoreCase(dto.getTipo())) {
+            somarSaldo(contaParaAplicar, dto.getValor());
+        }
+
+        transacaoExistente.setConta(contaParaAplicar);
+        transacaoExistente.setCategoria(categoriaParaAplicar);
+        transacaoExistente.setTipo(dto.getTipo());
+        transacaoExistente.setValor(dto.getValor());
+        transacaoExistente.setDataTransacao(dto.getDataTransacao() != null ? dto.getDataTransacao() : LocalDate.now());
+
+        // Salva a entidade modificada
+        Transacao transacaoAtualizada = transacaoRepository.save(transacaoExistente);
+
+        // Converte e retorna o DTO de Resposta
+        return new TransacaoResponseDTO(transacaoAtualizada);
+    }
+
+    @Transactional(readOnly = true)
+    public TransacaoResponseDTO buscarPorId(Long id) {
+        Transacao transacao = transacaoRepository.findByIdCompleto(id)
+                .orElseThrow(() -> new BusinessException("Transação com ID " + id + " não encontrada."));
+        return new TransacaoResponseDTO(transacao);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransacaoResponseDTO> buscarTodos() {
+        // Use a query otimizada 'findAllCompleto' (lembre-se de adicioná-la ao Repository)
+        List<Transacao> transacoes = transacaoRepository.findAllCompleto();
+
+        return transacoes.stream()
+                .map(TransacaoResponseDTO::new)
+                .toList();
+
+    }
 }

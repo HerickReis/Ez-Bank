@@ -1,10 +1,11 @@
 package br.com.EzBank.EzBank.transacao.controller;
 
 import br.com.EzBank.EzBank.dto.TransacaoDTO;
-import br.com.EzBank.EzBank.transacao.model.Transacao;
+import br.com.EzBank.EzBank.dto.TransacaoResponseDTO;
 import br.com.EzBank.EzBank.transacao.service.TransacaoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,30 +19,35 @@ public class TransacaoController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Transacao salvar(@RequestBody TransacaoDTO dto) {
-        return transacaoService.salvar(dto);
+    public ResponseEntity<TransacaoResponseDTO> salvar(@RequestBody TransacaoDTO dto) {
+        TransacaoResponseDTO response = transacaoService.salvar(dto);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/{id}")
     @ResponseStatus (HttpStatus.OK)
-    public Transacao buscar(@PathVariable Long id) {
-        return transacaoService.buscarPorId(id);
+    public ResponseEntity<TransacaoResponseDTO> buscarPoriD(@PathVariable Long id) {
+        return ResponseEntity.ok(transacaoService.buscarPorId(id));
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Transacao> buscarTodos() {
-        return transacaoService.buscarTodos();
+    public ResponseEntity<List<TransacaoResponseDTO>> buscarTodos() {
+        return ResponseEntity.ok(transacaoService.buscarTodos());
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void remover(@PathVariable Long id) {
+    public void excluir(@PathVariable Long id) {
         transacaoService.excluir(id);
     }
 
     @PutMapping("/{id}")
-    public Transacao atualizar(@PathVariable Long id, TransacaoDTO dto) {
-        return transacaoService.atualizar(id, dto);
+
+    public ResponseEntity<TransacaoResponseDTO> atualizar(@PathVariable Long id, @RequestBody TransacaoDTO dto) {
+
+        TransacaoResponseDTO responseDTO = transacaoService.atualizar(id, dto);
+        return ResponseEntity.ok(responseDTO);
     }
 }

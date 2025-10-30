@@ -2,6 +2,7 @@ package br.com.EzBank.EzBank.transacao.model;
 
 import br.com.EzBank.EzBank.categorias.model.Categoria;
 import br.com.EzBank.EzBank.conta.model.Conta;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -39,6 +40,7 @@ public class Transacao {
 
 
     @Column(name = "dt_data_movimentacao")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dataTransacao;
 
     @Column(name = "ds_tipo", length = 15)
