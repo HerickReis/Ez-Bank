@@ -33,7 +33,6 @@ public class ContaController {
     @ResponseStatus(HttpStatus.OK)
     public List<Conta> buscarTodos(){
         return contaService.buscarTodos();
-
     }
 
     @GetMapping("/por-usuario/{usuarioId}")

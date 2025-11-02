@@ -13,6 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "t_transacao")
+@DiscriminatorValue("fisica")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Transacao {
 

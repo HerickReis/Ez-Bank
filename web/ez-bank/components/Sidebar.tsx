@@ -23,8 +23,8 @@ export default function Sidebar() {
         <Image 
           src="/logo.svg" //
           alt="Ez-Bank Logo" 
-          width={150} 
-          height={50} 
+          width={200} 
+          height={200} 
         />
       </div>
 

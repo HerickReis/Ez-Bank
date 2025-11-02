@@ -9,7 +9,9 @@ interface Conta {
   pkIdConta: number;
   dsConta: string;
   saldoAtual: number;
-  tipoConta: string;
+  cpf?: string;
+  cnpj?: string;
+  razaoSocial?: string;
 }
 
 // Interface para as Transações
@@ -122,11 +124,11 @@ export default function DashboardPage() {
                   key={conta.pkIdConta}
                   className="bg-black p-6 rounded-lg shadow-lg w-72 flex-shrink-0"
                 >
-                  <h3 className="text-xl font-bold mb-2">{conta.dsConta}</h3>
+                  <h3 className="text-xl font-bold mb-2">
+                    {conta.razaoSocial ? conta.razaoSocial : "Conta Pessoal"}
+                  </h3>
                   <p className="text-zinc-400 mb-4">
-                    {conta.tipoConta === "FISICA"
-                      ? "Conta Pessoal"
-                      : "Conta Empresarial"}
+                    {conta.cpf ? `CPF: ${conta.cpf}` : `CNPJ: ${conta.cnpj}`}
                   </p>
                   <p className="text-2xl font-bold text-green-500">
                     {formatCurrency(conta.saldoAtual)}
