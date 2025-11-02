@@ -98,7 +98,7 @@ export default function LoginPage() {
         </form>
 
         <Link
-          href="/register"
+          href="/registerPage"
           className="bg-green-800 text-white p-2 rounded-2xl text-center"
         >
           Criar uma conta
