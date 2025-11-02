@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional; // Importar
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -183,7 +184,17 @@ public class TransacaoService {
 
         return transacoes.stream()
                 .map(TransacaoResponseDTO::new)
-                .toList();
+                .collect(Collectors.toList());
+
+    }
+
+    @Transactional(readOnly = true)
+    public List<TransacaoResponseDTO> buscarPorUsuario(Long usuarioId) {
+        List<Transacao> transacoes = transacaoRepository.findAllCompletoByUsuarioId(usuarioId);
+
+        return transacoes.stream()
+                .map(TransacaoResponseDTO::new)
+                .collect(Collectors.toList());
 
     }
 }

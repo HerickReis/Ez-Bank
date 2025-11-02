@@ -2,33 +2,35 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// biblioteca de icones
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 
 interface Conta {
-  pkIdConta: number;
-  dsConta: string;
+  id: number;
   saldoAtual: number;
   cpf?: string;
   cnpj?: string;
   razaoSocial?: string;
+  tipo_conta: string;
 }
 
-// Interface para as Transações
 interface Transacao {
-  id: number;
-  descricao: string;
-  valor: number; // Positivo para entrada, negativo para saída
-  categoria: string;
-  data: string;
+  idTransacao: number;
+  dataTransacao: string; //  "dd/MM/yyyy"
+  tipo: string; // "ENTRADA" ou "SAIDA"
+  valor: number;
+  categoria: {
+    id: number;
+    nome: string;
+  };
 }
 
 export default function DashboardPage() {
   const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
   const [contas, setContas] = useState<Conta[]>([]);
-  const [transacoes, setTransacoes] = useState<Transacao[]>([]); // Estado para transações
-  const [isLoading, setIsLoading] = useState(true);
+  const [transacoes, setTransacoes] = useState<Transacao[]>([]);
+  const [isLoadingContas, setIsLoadingContas] = useState(true); // Loading separado
+  const [isLoadingTransacoes, setIsLoadingTransacoes] = useState(true); // Loading separado
   const [erro, setErro] = useState<string | null>(null);
 
   const formatCurrency = (value: number) => {
@@ -46,57 +48,51 @@ export default function DashboardPage() {
       router.push("/loginPage");
       return;
     }
-
     setUserName(storedUserName);
 
-    // Função para buscar os dados
     const fetchData = async () => {
+      setErro(null);
+      setIsLoadingContas(true);
+      setIsLoadingTransacoes(true);
+
       try {
-        setErro(null);
         const responseContas = await fetch(
-          `http://localhost:8080/api/contas/por-usuario/${userId}` //
+          `http://localhost:8080/api/contas/por-usuario/${userId}`
         );
         if (responseContas.ok) {
-          const data: Conta[] = await responseContas.json();
-          setContas(data);
+          const dataContas: Conta[] = await responseContas.json();
+          setContas(dataContas);
         } else {
           throw new Error("Falha ao buscar contas.");
         }
-
-        setTransacoes([
-          {
-            id: 1,
-            descricao: "Salário",
-            valor: 5000,
-            categoria: "Renda",
-            data: "01/11/2025",
-          },
-          {
-            id: 2,
-            descricao: "Padaria",
-            valor: -50.2,
-            categoria: "Alimentação",
-            data: "02/11/2025",
-          },
-          {
-            id: 3,
-            descricao: "Conta de Luz",
-            valor: -150.0,
-            categoria: "Moradia",
-            data: "02/11/2025",
-          },
-        ]);
-      } catch (error: any) {
-        setErro(error.message || "Não foi possível conectar ao servidor.");
+      } catch (error) {
+        if (error instanceof Error) setErro(error.message);
       } finally {
-        setIsLoading(false);
+        setIsLoadingContas(false);
+      }
+
+      try {
+        const responseTransacoes = await fetch(
+          `http://localhost:8080/api/transacoes/por-usuario/${userId}`
+        );
+
+        if (responseTransacoes.ok) {
+          const dataTransacoes: Transacao[] = await responseTransacoes.json();
+          setTransacoes(dataTransacoes);
+        } else {
+          throw new Error("Falha ao buscar transações.");
+        }
+      } catch (error) {
+        if (error instanceof Error) setErro(error.message);
+      } finally {
+        setIsLoadingTransacoes(false);
       }
     };
 
     fetchData();
   }, [router]);
 
-  if (isLoading || !userName) {
+  if (isLoadingContas || !userName) {
     return (
       <div className="w-full h-screen flex justify-center items-center bg-gradient-to-b from-black to-green-800">
         <p className="text-white">Carregando...</p>
@@ -115,13 +111,14 @@ export default function DashboardPage() {
         <h2 className="text-2xl font-semibold mb-4 text-green-400">
           Minhas Contas
         </h2>
-        {erro && <p className="text-red-400">{erro}</p>}
+        {isLoadingContas && <p>Carregando contas...</p>}
+        {erro && !isLoadingContas && <p className="text-red-400">{erro}</p>}
 
         <div className="flex space-x-6 overflow-x-auto pb-4">
-          {contas.length > 0
+          {!isLoadingContas && contas.length > 0
             ? contas.map((conta) => (
                 <div
-                  key={conta.pkIdConta}
+                  key={conta.id}
                   className="bg-black p-6 rounded-lg shadow-lg w-72 flex-shrink-0"
                 >
                   <h3 className="text-xl font-bold mb-2">
@@ -135,7 +132,7 @@ export default function DashboardPage() {
                   </p>
                 </div>
               ))
-            : !erro && <p>Nenhuma conta encontrada.</p>}
+            : !isLoadingContas && !erro && <p>Nenhuma conta encontrada.</p>}
         </div>
       </section>
 
@@ -143,33 +140,44 @@ export default function DashboardPage() {
         <h2 className="text-2xl font-semibold mb-4 text-green-400">
           Últimas Transações
         </h2>
+
+        {isLoadingTransacoes && <p>Carregando transações...</p>}
+        {erro && !isLoadingTransacoes && <p className="text-red-400">{erro}</p>}
+
         <div className="bg-black rounded-lg p-6">
           <ul className="space-y-4">
-            {transacoes.map((trans) => (
-              <li key={trans.id} className="flex justify-between items-center">
-                <div className="flex items-center gap-3">
-                  {trans.valor > 0 ? (
-                    <ArrowUpCircle className="text-green-500" />
-                  ) : (
-                    <ArrowDownCircle className="text-red-500" />
-                  )}
-                  <div>
-                    <p className="font-bold">{trans.descricao}</p>
-                    <p className="text-sm text-zinc-400">{trans.categoria}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p
-                    className={`font-bold ${
-                      trans.valor > 0 ? "text-green-500" : "text-red-500"
-                    }`}
+            {!isLoadingTransacoes && transacoes.length > 0
+              ? transacoes.map((trans) => (
+                  <li
+                    key={trans.idTransacao}
+                    className="flex justify-between items-center"
                   >
-                    {formatCurrency(trans.valor)}
-                  </p>
-                  <p className="text-sm text-zinc-400">{trans.data}</p>
-                </div>
-              </li>
-            ))}
+                    <div className="flex items-center gap-3">
+                      {trans.tipo.toUpperCase() === "ENTRADA" ? (
+                        <ArrowUpCircle className="text-green-500" />
+                      ) : (
+                        <ArrowDownCircle className="text-red-500" />
+                      )}
+                      <div>
+                        <p className="font-bold">{trans.categoria.nome}</p>
+                        <p className="text-sm text-zinc-400">
+                          {trans.dataTransacao}
+                        </p>
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <p
+                        className={`font-bold ${
+                          trans.valor > 0 ? "text-green-500" : "text-red-500"
+                        }`}
+                      >
+                        {formatCurrency(trans.valor)}
+                      </p>
+                    </div>
+                  </li>
+                ))
+              : !isLoadingTransacoes &&
+                !erro && <p>Nenhuma transação encontrada.</p>}
           </ul>
         </div>
       </section>

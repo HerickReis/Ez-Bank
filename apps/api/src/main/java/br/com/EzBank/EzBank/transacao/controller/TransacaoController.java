@@ -51,4 +51,10 @@ public class TransacaoController {
         TransacaoResponseDTO responseDTO = transacaoService.atualizar(id, dto);
         return ResponseEntity.ok(responseDTO);
     }
+
+    @GetMapping("/por-usuario/{usuarioId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<List<TransacaoResponseDTO>> buscarTransacoesDoUsuario(@PathVariable Long usuarioId) {
+        return ResponseEntity.ok(transacaoService.buscarPorUsuario(usuarioId));
+    }
 }

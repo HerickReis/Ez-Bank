@@ -99,8 +99,8 @@ export default function CreateAccountPage() {
           onChange={(e) => setTipoConta(e.target.value)}
           className="p-2 rounded-2xl bg-zinc-400 text-black"
         >
-          <option value="FISICA">Conta Física (PF)</option>
-          <option value="JURIDICA">Conta Jurídica (PJ)</option>
+          <option className="text-black" value="FISICA">Conta Física (PF)</option>
+          <option className="text-black" value="JURIDICA">Conta Jurídica (PJ)</option>
         </select>
 
         {tipoConta === "FISICA" && (
@@ -109,7 +109,7 @@ export default function CreateAccountPage() {
             value={cpf}
             onChange={(e) => setCpf(e.target.value)}
             placeholder="CPF (apenas números)"
-            className="p-2 rounded-2xl bg-zinc-400 text-black placeholder:text-zinc-600"
+            className="p-2 rounded-2xl bg-zinc-400 text-black placeholder:text-zinc-800"
             required
           />
         )}
@@ -121,7 +121,7 @@ export default function CreateAccountPage() {
               value={cnpj}
               onChange={(e) => setCnpj(e.target.value)}
               placeholder="CNPJ (apenas números)"
-              className="p-2 rounded-2xl bg-zinc-400 text-black placeholder:text-zinc-6G00"
+              className="p-2 rounded-2xl bg-zinc-400 text-black placeholder:text-zinc-600"
               required
             />
             <input
