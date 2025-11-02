@@ -65,4 +65,19 @@ public class UsuarioService {
 
     }
 
+    public Usuario validarLogin(String email, String senha) {
+        Optional<Usuario> usuarioOpt = usuarioRepository.findByDsEmail(email);
+
+        if (usuarioOpt.isEmpty()){
+            throw new UserNotFoundException("Usuário não encontrado");
+        }
+        Usuario usuario = usuarioOpt.get();
+
+        if (senha.equals(usuario.getTxSenha())) {
+            return usuario;
+        } else {
+            throw new BusinessException("Senha inválida");
+        }
+    }
+
 }

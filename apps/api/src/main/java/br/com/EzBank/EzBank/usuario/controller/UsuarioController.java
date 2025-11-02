@@ -1,5 +1,6 @@
 package br.com.EzBank.EzBank.usuario.controller;
 
+import br.com.EzBank.EzBank.dto.LoginDTO;
 import br.com.EzBank.EzBank.usuario.model.Usuario;
 
 import br.com.EzBank.EzBank.usuario.service.UsuarioService;
@@ -43,6 +44,12 @@ public class UsuarioController {
     @PutMapping("/{id}")
     public Usuario atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
         return usuarioService.atualizar(id, usuario);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.OK)
+    public Usuario fazerLogin(@RequestBody LoginDTO loginDTO) {
+        return usuarioService.validarLogin(loginDTO.getEmail(), loginDTO.getSenha());
     }
 
 }
