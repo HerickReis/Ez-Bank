@@ -5,7 +5,9 @@ import br.com.EzBank.EzBank.conta.model.ContaFisica;
 import br.com.EzBank.EzBank.conta.model.ContaJuridica;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface ContaRepository extends JpaRepository<Conta, Long> {
+    List<Conta> findAllByUsuario_PkIdUsuario(Long usuarioId);
 }

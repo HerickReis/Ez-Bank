@@ -106,6 +106,10 @@ public class ContaService {
         return contaRepository.findAll();
     }
 
+    public List<Conta> buscarPorUsuario(Long usuarioId) {
+        return contaRepository.findAllByUsuario_PkIdUsuario(usuarioId);
+    }
+
 
     public void excluir(Long id) {
         contaRepository.deleteById(id);

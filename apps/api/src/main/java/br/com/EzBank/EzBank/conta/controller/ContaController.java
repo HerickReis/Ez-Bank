@@ -11,6 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/contas")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ContaController {
 
     @Autowired
@@ -33,6 +34,12 @@ public class ContaController {
     public List<Conta> buscarTodos(){
         return contaService.buscarTodos();
 
+    }
+
+    @GetMapping("/por-usurio/{usuarioId}")
+    @ResponseStatus(HttpStatus.OK)
+    public List<Conta> buscarPorUsuario(@PathVariable Long usuarioId){
+        return contaService.buscarPorUsuario(usuarioId);
     }
 
     @DeleteMapping("/{id}")
