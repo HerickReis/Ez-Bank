@@ -2,7 +2,9 @@ package br.com.EzBank.EzBank.transacao.model;
 
 import br.com.EzBank.EzBank.categorias.model.Categoria;
 import br.com.EzBank.EzBank.conta.model.Conta;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -11,6 +13,7 @@ import java.util.Date;
 
 @Entity
 @Table(name = "t_transacao")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Transacao {
 
     @Id
@@ -30,6 +33,7 @@ public class Transacao {
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "fk_id_conta", nullable = false,
                     foreignKey = @ForeignKey(name = "fk_transacao_conta"))
+    @JsonBackReference
     private Conta conta;
 
     // Muitas tansações são de uma categoria

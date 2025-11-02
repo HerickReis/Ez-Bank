@@ -38,10 +38,12 @@ export default function LoginPage() {
       if (response.ok) {
         const usuarioLogado = await response.json();
         console.log("Login bem-sucedido!", usuarioLogado);
+        
+        // Salva as informações do usuário no localStorage
+        localStorage.setItem("userId", usuarioLogado.pkIdUsuario); // ID do usuário
+        localStorage.setItem("userName", usuarioLogado.nmUsuario); // Nome do usuário
 
-
-        alert(`Bem-vindo, ${usuarioLogado.nmUsuario}!`); 
-        router.push("/dashboard"); 
+        router.push("/dashboard");
       } else {
         const erroData = await response.json();
         console.error("Falha no login:", erroData.message);

@@ -3,6 +3,7 @@ package br.com.EzBank.EzBank.conta.model;
 import br.com.EzBank.EzBank.transacao.model.Transacao;
 import br.com.EzBank.EzBank.usuario.model.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ public abstract class Conta {
     private Usuario usuario;
 
     @OneToMany(mappedBy = "conta", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
     private List<Transacao> transacoes = new ArrayList<>();
 
     public List<Transacao> getTransacoes() {

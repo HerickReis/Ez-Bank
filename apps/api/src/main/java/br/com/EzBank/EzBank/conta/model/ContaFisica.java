@@ -1,5 +1,6 @@
 package br.com.EzBank.EzBank.conta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
@@ -10,6 +11,7 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "t_conta_fisica")
 @DiscriminatorValue("fisica")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class ContaFisica extends Conta{
 
     @Column(name = "nr_cpf", length = 11, nullable = false, unique = true)

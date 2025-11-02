@@ -1,11 +1,13 @@
 package br.com.EzBank.EzBank.categorias.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 
 @Entity
 @Table(name = "t_categoria",
         uniqueConstraints = @UniqueConstraint(columnNames = {"fk_id_usuario", "nm_categoria"}))
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Categoria {
 
     @Id
