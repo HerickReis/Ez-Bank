@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import Link from "next/link";
 
 export default function RegisterPage() {
   const [nmUsuario, setNmUsuario] = useState("");
@@ -20,33 +20,43 @@ export default function RegisterPage() {
     setErro(null);
     setIsLoading(true);
 
-    const usurioData = {
+    const usuarioData = {
       nmUsuario: nmUsuario,
       dsEmail: dsEmail,
-      dtNascimento: dtNascimento, // Formato "dd/MM/yyyy"
-      vlRendaMensal: parseFloat(vlRendaMensal), // Converter para número
+      dtNascimento: dtNascimento,
+      vlRendaMensal: parseFloat(vlRendaMensal),
       txSenha: txSenha,
     };
 
     try {
       const response = await fetch("http://localhost:8080/api/usuarios", {
+        //
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(usurioData),
+        body: JSON.stringify(usuarioData),
       });
 
       if (response.ok) {
-        alert("Conta criada com sucesso! faça o Login.");
-        router.push("/loginPage");
+        const novoUsuario = await response.json();
+
+        localStorage.setItem("userId", novoUsuario.pkIdUsuario);
+        localStorage.setItem("userName", novoUsuario.nmUsuario);
+
+        alert("Usuário criado! Agora, crie sua primeira conta.");
+
+        router.push("/createAccountPage");
       } else {
         const erroData = await response.json();
         setErro(erroData.message);
       }
     } catch (error) {
-      console.error("Erro de conexão:", error);
-      setErro("Não foi possível conectar com o servidor, Tente novamente.");
+      if (error instanceof Error) {
+        setErro(error.message);
+      } else {
+        setErro("Não foi possível conectar ao servidor.");
+      }
     } finally {
       setIsLoading(false);
     }
