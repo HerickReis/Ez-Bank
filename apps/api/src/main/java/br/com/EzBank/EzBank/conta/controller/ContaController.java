@@ -36,7 +36,7 @@ public class ContaController {
 
     }
 
-    @GetMapping("/por-usurio/{usuarioId}")
+    @GetMapping("/por-usuario/{usuarioId}")
     @ResponseStatus(HttpStatus.OK)
     public List<Conta> buscarContasDoUsuario(@PathVariable Long usuarioId){
         return contaService.buscarPorUsuario(usuarioId);

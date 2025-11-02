@@ -1,19 +1,18 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-// Ícones para as transações
+// biblioteca de icones
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 
-// (A interface 'Conta' continua igual)
 interface Conta {
   pkIdConta: number;
   dsConta: string;
-  vlSaldo: number;
+  saldoAtual: number;
   tipoConta: string;
 }
 
-// (Interface para as Transações, como na imagem)
+// Interface para as Transações
 interface Transacao {
   id: number;
   descricao: string;
@@ -30,7 +29,6 @@ export default function DashboardPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [erro, setErro] = useState<string | null>(null);
 
-  // (A função 'formatCurrency' continua igual)
   const formatCurrency = (value: number) => {
     return value.toLocaleString("pt-BR", {
       style: "currency",
@@ -53,7 +51,6 @@ export default function DashboardPage() {
     const fetchData = async () => {
       try {
         setErro(null);
-        // 1. Busca Contas (como antes)
         const responseContas = await fetch(
           `http://localhost:8080/api/contas/por-usuario/${userId}` //
         );
@@ -97,7 +94,6 @@ export default function DashboardPage() {
     fetchData();
   }, [router]);
 
-  // Se ainda estiver checando o login, não mostra nada
   if (isLoading || !userName) {
     return (
       <div className="w-full h-screen flex justify-center items-center bg-gradient-to-b from-black to-green-800">
@@ -106,24 +102,19 @@ export default function DashboardPage() {
     );
   }
 
-  // A PÁGINA EM SI (AGORA LIMPA)
   return (
-    // O gradiente e o padding vêm aqui
     <div className="w-full min-h-screen bg-gradient-to-b from-black to-green-800 text-white p-8">
-      {/* Header (dentro do conteúdo principal) */}
       <header className="mb-12">
         <h1 className="text-zinc-300 text-3xl font-bold">Olá, {userName}!</h1>
         <p className="text-zinc-400">Seu resumo financeiro está aqui.</p>
       </header>
 
-      {/* Seção de Contas (Scroll Horizontal como na imagem) */}
       <section>
         <h2 className="text-2xl font-semibold mb-4 text-green-400">
           Minhas Contas
         </h2>
         {erro && <p className="text-red-400">{erro}</p>}
 
-        {/* Container de scroll horizontal */}
         <div className="flex space-x-6 overflow-x-auto pb-4">
           {contas.length > 0
             ? contas.map((conta) => (
@@ -138,7 +129,7 @@ export default function DashboardPage() {
                       : "Conta Empresarial"}
                   </p>
                   <p className="text-2xl font-bold text-green-500">
-                    {formatCurrency(conta.vlSaldo)}
+                    {formatCurrency(conta.saldoAtual)}
                   </p>
                 </div>
               ))
@@ -146,7 +137,6 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      {/* Seção de Transações (Como na imagem) */}
       <section className="mt-12">
         <h2 className="text-2xl font-semibold mb-4 text-green-400">
           Últimas Transações
