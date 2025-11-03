@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+import TransacaoList from "@/components/TransacaoList";
 
 interface Conta {
   id: number;
@@ -21,6 +22,10 @@ interface Transacao {
   categoria: {
     id: number;
     nome: string;
+  };
+  conta: {
+    id: number;
+    documento: string;
   };
 }
 
@@ -55,6 +60,7 @@ export default function DashboardPage() {
       setIsLoadingContas(true);
       setIsLoadingTransacoes(true);
 
+      // Contas
       try {
         const responseContas = await fetch(
           `http://localhost:8080/api/contas/por-usuario/${userId}`
@@ -71,6 +77,7 @@ export default function DashboardPage() {
         setIsLoadingContas(false);
       }
 
+      // Transacoes
       try {
         const responseTransacoes = await fetch(
           `http://localhost:8080/api/transacoes/por-usuario/${userId}`
@@ -142,44 +149,10 @@ export default function DashboardPage() {
         </h2>
 
         {isLoadingTransacoes && <p>Carregando transações...</p>}
-        {erro && !isLoadingTransacoes && <p className="text-red-400">{erro}</p>}
 
-        <div className="bg-black rounded-lg p-6">
-          <ul className="space-y-4">
-            {!isLoadingTransacoes && transacoes.length > 0
-              ? transacoes.map((trans) => (
-                  <li
-                    key={trans.idTransacao}
-                    className="flex justify-between items-center"
-                  >
-                    <div className="flex items-center gap-3">
-                      {trans.tipo.toUpperCase() === "ENTRADA" ? (
-                        <ArrowUpCircle className="text-green-500" />
-                      ) : (
-                        <ArrowDownCircle className="text-red-500" />
-                      )}
-                      <div>
-                        <p className="font-bold">{trans.categoria.nome}</p>
-                        <p className="text-sm text-zinc-400">
-                          {trans.dataTransacao}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p
-                        className={`font-bold ${
-                          trans.valor > 0 ? "text-green-500" : "text-red-500"
-                        }`}
-                      >
-                        {formatCurrency(trans.valor)}
-                      </p>
-                    </div>
-                  </li>
-                ))
-              : !isLoadingTransacoes &&
-                !erro && <p>Nenhuma transação encontrada.</p>}
-          </ul>
-        </div>
+        {!isLoadingTransacoes && !erro && (
+          <TransacaoList transacoes={transacoes.slice(0, 5)} />
+        )}
       </section>
     </div>
   );

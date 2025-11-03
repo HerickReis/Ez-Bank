@@ -14,6 +14,6 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
     @Query("SELECT t FROM Transacao t JOIN FETCH t.conta c JOIN FETCH t.categoria cat WHERE t.idTransacao = :id")
     Optional<Transacao> findByIdCompleto(Long id);
 
-    @Query("SELECT t FROM Transacao t JOIN FETCH t.conta c JOIN FETCH t.categoria cat WHERE c.usuario.pkIdUsuario = :usuarioId")
+    @Query("SELECT t FROM Transacao t JOIN FETCH t.conta c JOIN FETCH t.categoria cat WHERE c.usuario.pkIdUsuario = :usuarioId ORDER BY t.dataTransacao DESC")
     List<Transacao> findAllCompletoByUsuarioId(Long usuarioId);
 }

@@ -20,10 +20,13 @@ export default function RegisterPage() {
     setErro(null);
     setIsLoading(true);
 
+    const [year, month, day] = dtNascimento.split("-");
+    const formattedDate = `${day}/${month}/${year}`;
+
     const usuarioData = {
       nmUsuario: nmUsuario,
       dsEmail: dsEmail,
-      dtNascimento: dtNascimento,
+      dtNascimento: formattedDate,
       vlRendaMensal: parseFloat(vlRendaMensal),
       txSenha: txSenha,
     };
@@ -99,7 +102,7 @@ export default function RegisterPage() {
             required
           />
           <input
-            type="text"
+            type="date"
             value={dtNascimento}
             onChange={(e) => setDtNascimento(e.target.value)}
             placeholder="Data de Nascimento (dd/MM/yyyy)"

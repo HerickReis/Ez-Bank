@@ -4,8 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
 import TransacaoList from "@/components/TransacaoList"; // 1. IMPORTE O NOVO COMPONENTE
-import AddTransacaoModal from "./AddTransacaoModal";
-import Sidebar from "@/components/Sidebar";
+import AddTransacaoModal from "../../../../components/AddTransacaoModal";
 
 // ... (Interface Transacao) ...
 interface Transacao {
