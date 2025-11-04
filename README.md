@@ -124,8 +124,8 @@ Email: teste.fintech@ezbank.teste
 Senha: Teste123.
 ```
 
----
-
+    5. om o usuário e a conta criados, volte para a página de login (`/loginPage`), insira suas credenciais e acesse o dashboard.
+    
 ## Funcionalidades
 
 ### Dashboard
