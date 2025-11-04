@@ -43,7 +43,6 @@ export default function PerfilPage() {
     setErro(null);
 
     try {
-      // 1. Busca dados do usuário
       const resUser = await fetch(
         `http://localhost:8080/api/usuarios/${userId}`
       ); 

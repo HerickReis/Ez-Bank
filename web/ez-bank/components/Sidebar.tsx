@@ -47,6 +47,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
           href="/dashboard"
           className={`${baseLinkClass} ${pathname === '/dashboard' ? activeLinkClass : inactiveLinkClass} ${!isOpen && 'justify-center'}`}
         >
+          {/* Botão Home */}
           <LayoutDashboard size={20} />
           <span className={!isOpen ? 'hidden' : ''}>Home</span>
         </Link>
@@ -54,6 +55,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
           href="/dashboard/transacoes"
           className={`${baseLinkClass} ${pathname.startsWith('/dashboard/transacoes') ? activeLinkClass : inactiveLinkClass} ${!isOpen && 'justify-center'}`}
         >
+          {/* Botão de Transações */}
           <ArrowLeftRight size={20} />
           <span className={!isOpen ? 'hidden' : ''}>Transações</span>
         </Link>
@@ -61,6 +63,7 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
           href="/dashboard/categorias"
           className={`${baseLinkClass} ${pathname.startsWith('/dashboard/categorias') ? activeLinkClass : inactiveLinkClass} ${!isOpen && 'justify-center'}`}
         >
+          {/* Botão de Categorias */}
           <Shapes size={20} />
           <span className={!isOpen ? 'hidden' : ''}>Categorias</span>
         </Link>
@@ -68,12 +71,13 @@ export default function Sidebar({ isOpen, toggle }: SidebarProps) {
           href="/dashboard/perfil"
           className={`${baseLinkClass} ${pathname.startsWith('/dashboard/perfil') ? activeLinkClass : inactiveLinkClass} ${!isOpen && 'justify-center'}`}
         >
+          {/* Botão de Perfil */}
           <User size={20} />
           <span className={!isOpen ? 'hidden' : ''}>Perfil</span>
         </Link>
       </nav>
 
-      {/* 7. Botão de Sair (no final da tela) */}
+      {/* Botão de Sair */}
       <div className="p-4 border-t border-zinc-800">
         <button
           onClick={handleLogout}

@@ -23,7 +23,7 @@ export default function CategoriasPage() {
     setErro(null);
     try {
       const response = await fetch(
-        `http://localhost:8080/api/categorias` //
+        `http://localhost:8080/api/categorias`
       );
       if (response.ok) {
         const data: Categoria[] = await response.json();
