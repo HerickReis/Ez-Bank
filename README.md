@@ -8,9 +8,9 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/Java-21-orange" alt="Java 21" />
-  <img src="https://img.shields.io/badge/Spring%20Boot-3.3-green" alt="Spring Boot" />
-  <img src="https://img.shields.io/badge/Next.js-14-black" alt="Next.js" />
-  <img src="https://img.shields.io/badge/TailwindCSS-3.4-blue" alt="TailwindCSS" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.5.7-green" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Next.js-16-black" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TailwindCSS-4-blue" alt="TailwindCSS" />
   <img src="https://img.shields.io/badge/TypeScript-5.0-blueviolet" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Oracle%20DB-cloud-red" alt="Oracle DB" />
   <img src="https://img.shields.io/badge/Status-Acad%C3%AAmico-lightgrey" alt="Status" />
