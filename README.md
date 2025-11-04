@@ -1,122 +1,189 @@
+# Ez-Bank — Projeto Final FIAP
 
-# Ez-Bank-Final-Project
-Projeto desenvolvido para estudos da faculdade de Análise e desenvolvimento de sistemas na Faculdade de informática e administração Paulista [FIAP](https://www.fiap.com.br/)
+> Projeto acadêmico desenvolvido como parte do curso de **Análise e Desenvolvimento de Sistemas** na [FIAP](https://www.fiap.com.br/).
+>
+> O **Ez-Bank** é uma aplicação **full stack** que simula um sistema bancário digital, permitindo o cadastro de usuários, criação de contas (PF/PJ), controle de categorias e registro de transações financeiras.
 
-## Stack utilizada
+---
 
-**Front-end:** NextJs, LucideReact, Tailwindcss, Typescript
+<p align="center">
+  <img src="https://img.shields.io/badge/Java-21-orange" alt="Java 21" />
+  <img src="https://img.shields.io/badge/Spring%20Boot-3.3-green" alt="Spring Boot" />
+  <img src="https://img.shields.io/badge/Next.js-14-black" alt="Next.js" />
+  <img src="https://img.shields.io/badge/TailwindCSS-3.4-blue" alt="TailwindCSS" />
+  <img src="https://img.shields.io/badge/TypeScript-5.0-blueviolet" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Oracle%20DB-cloud-red" alt="Oracle DB" />
+  <img src="https://img.shields.io/badge/Status-Acad%C3%AAmico-lightgrey" alt="Status" />
+</p>
 
-**Back-end:** Java, SpringBoot, Oracle Database.
+---
 
+## Stack Utilizada
 
-## Como Instalar
+| Camada        | Tecnologias                                        |
+| :------------ | :------------------------------------------------- |
+| **Front-end** | Next.js • Lucide React • Tailwind CSS • TypeScript |
+| **Back-end**  | Java 21 • Spring Boot • Oracle Database            |
 
-Para garantir que o programa rode corretamente, granta que tenha os seguintes softwares:
+---
 
+## Pré-requisitos
 
-- **Java JDK 21:** O backend foi desenvolvido utilizando SpringBoot com Java na versão 21
+Antes de iniciar, certifique-se de ter os seguintes softwares instalados:
 
-- **Node.Js:** o front-end NextJs requer o NodeJs (que inclui o gerenciador de pacotes npm)
+- **Java JDK 21:** necessário para executar o back-end (Spring Boot).
+- **Node.js:** inclui o npm, necessário para rodar o front-end (Next.js).
+- **Acesso à rede FIAP:** o back-end se conecta a uma instância Oracle hospedada na infraestrutura da faculdade.
 
-- **Acesso à rede:** O back-end construído para se conectar a uma instância do banco de dados **Oracle** externo hospedado na FIAP (exclusivo faculdade)
+---
 
-### 1. Configurações do back-end
+## Instalação e Execução
 
-**Passo 1 Navegar até o diretório da API:** Abra um terminal e navegue até a pasta API:
+### 1. Configuração do Back-end
 
-```cd caminho/para/o/projeto/apps/api```
+#### Passo 1 — Acessar o diretório da API
 
-**Passo 2:** O projeto foi pré-configurado para usar um banco de dados Oracle da Fiap, As credenciais estão no arquivo:
-
-```apps/api/src/main/resources/application.properties``` e são:
-
-    URL: jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
-
-    Username: RM563259
-
-    Password: 020206
-<sup>Informação exclusiva para entrega do projeto</sup>
-
-<sup>*Obs: Nenhum Script de banco de dados (DDL) é necesário, pois o Spring Data JPA (configurado em `pom.xml`) irá gerenciar automaticamente a criação das tabelas.*</sup>
-
-**Passo 3: Executar a Aplicação Spring Boot** O Projeto utiliza Maven Wrapper, então não é necessário ter o Maven instalado globalmente.
-
-- Linux / macOS:
 ```bash
-./mvnw spring-boot:run
+cd caminho/para/o/projeto/apps/api
 ```
 
-- Windows:
+#### Passo 2 — Verificar credenciais do banco Oracle (FIAP)
+
+O arquivo de configuração está localizado em:
+
+```
+apps/api/src/main/resources/application.properties
+```
+
+Credenciais de acesso (exclusivas para entrega acadêmica):
+
+```
+URL: jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
+Username: RM563259
+Password: 020206
+```
+
+> O Spring Data JPA, configurado via `pom.xml`, gerencia automaticamente a criação das tabelas.
+> Nenhum script DDL adicional é necessário.
+
+#### Passo 3 — Executar o servidor Spring Boot
+
+O projeto utiliza **Maven Wrapper**, portanto o Maven não precisa estar instalado globalmente.
+
 ```bash
+# Linux / macOS
+./mvnw spring-boot:run
+
+# Windows
 mvnw.cmd spring-boot:run
 ```
 
-Após inicialização, o back-end estará sendo executado em:
+Após a inicialização, o back-end estará disponível em:
 `http://localhost:8080`
 
+---
 
-### 2. Configuração do Frontend (Web)
-O frontend é a interface com o usuário, construída em NextJs, que consome os dados da API.
+### 2. Configuração do Front-end
 
-**Passo 1: Navegar até o diretório do Frontend** abra um terminal e navegue até a pasta `web/ez-bank` :
+#### Passo 1 — Acessar o diretório do Front-end
 
 ```bash
 cd caminho/para/o/projeto/web/ez-bank
 ```
 
-**Passo 2: Instalar as dependências do projeto:** Use `npm` para instalar todas as dependências listadas no `package.json`
+#### Passo 2 — Instalar as dependências
 
 ```bash
 npm install
 ```
 
-**Passo 3: Executar o servidor de Desenvolvimento** Inicie a aplicação NextJs em modo de Desenvolvimento, conforme definido nos scripts do `package.json` e no `README.md` do frontend:
+#### Passo 3 — Executar o servidor de desenvolvimento
 
 ```bash
 npm run dev
 ```
 
-Após a inicialização, o frontend estará em execução e acessível em http://localhost:3000.
+Após a inicialização, o front-end estará acessível em:
+`http://localhost:3000`
 
-### Como Utilizar?
+---
 
-Com ambos os servidores (backend e frontend) em execução (Seguindo os passos da instalação):
+## Como Utilizar
 
-    1. Acesse `http://localhost:3000` no seu navegador.
+Com ambos os servidores (front-end e back-end) ativos:
 
-    2. Você será direcionado para a página inicial.
+1. Acesse `http://localhost:3000` no navegador.
+2. Clique em **“Acesse sua conta”** e, em seguida, em **“Criar uma conta”** para acessar a página `/registerPage`.
+3. Após o registro, crie sua primeira conta **Física ou Jurídica** em `/createAccountPage`.
+4. Retorne à tela de login (`/loginPage`), insira suas credenciais e acesse o **Dashboard**.
 
-    3. Como é um primeiro acesso, clique em "Acesse sua conta" e depois em "Criar uma conta" para ir para a página de registro (`/registerPage`).
+Para facilitar o acesso use as credenciais de teste ja cadastrado:
 
-    4. Após se registrar, o sistema irá direcioná-lo para criar sua primeira conta (Física ou Jurídica) na página `/createAccountPage`.
+```
+Email: teste.fintech@ezbank.teste
+Senha: Teste123.
+```
 
-    5. om o usuário e a conta criados, volte para a página de login (`/loginPage`), insira suas credenciais e acesse o dashboard.
-    
+---
+
 ## Funcionalidades
 
+### Dashboard
 
-**Dashbord**
-- Listagem de últimas transações.
-- Menu de navegação lateral retrativo.
-- Aba de transações.
-- Aba de Categorias.
-- Aba de Perfil.
+- Exibição das últimas transações.
+- Menu lateral retrátil.
+- Navegação por abas:
 
-**Transações**
-- Criação de nova transação
-- Modal de criação das novas transações
+  - Transações
+  - Categorias
+  - Perfil
 
-**Categorias**
-- Criação de nova categoria de gastos.
-- Exclusão de categoria existente
-- Listagem de categorias existentes
+### Transações
 
-**Perfil**
-- Listagem de informações pessoas
-  * Nome do usuário
-  * Data de nascimento
-  * Email
-  * Renda Mensal
+- Criação de novas transações.
+- Modal dedicado à inserção de dados.
 
-- Gerenciar Contas
-  * Criação da conta Pj ou Fisica
+### Categorias
+
+- Criação e exclusão de categorias.
+- Listagem de categorias existentes.
+
+### Perfil
+
+- Exibição de informações pessoais:
+
+  - Nome do usuário
+  - Data de nascimento
+  - E-mail
+  - Renda mensal
+
+- Gerenciamento de contas (Pessoa Física ou Jurídica).
+
+---
+
+## Estrutura do Projeto
+
+```
+Ez-Bank-Final-Project/
+│
+├── apps/
+│   ├── api/          → Back-end (Spring Boot)
+│   └── web/ez-bank/  → Front-end (Next.js)
+│
+└── README.md
+```
+
+---
+
+## Observações
+
+- Projeto desenvolvido exclusivamente para **fins acadêmicos (FIAP)**.
+- As credenciais e o banco Oracle utilizados são **de uso restrito**.
+- O código segue boas práticas de organização e estrutura modular **full stack**.
+
+---
+
+## Autor
+
+**Herick Reis - RM563259:**
+Desenvolvido como parte do curso de **Análise e Desenvolvimento de Sistemas — FIAP**
