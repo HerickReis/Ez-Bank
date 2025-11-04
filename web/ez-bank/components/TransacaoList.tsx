@@ -19,7 +19,7 @@ interface Transacao {
 
 interface TransacaoListProps {
   transacoes: Transacao[]; 
-  onDelete: (id: number) => void; 
+  onDelete?: (id: number) => void; 
 }
 
 const formatCurrency = (value: number) => {
@@ -56,13 +56,15 @@ export default function TransacaoList({ transacoes, onDelete }: TransacaoListPro
                 </p>
                 <p className="text-sm text-zinc-400">{trans.dataTransacao}</p>
               </div>
-              <button
-                onClick={() => onDelete(trans.idTransacao)} 
-                className="text-red-500 hover:text-red-400 p-1"
-                title="Excluir transação"
-              >
-                <Trash2 size={18} />
-              </button>
+              {onDelete && (
+                <button
+                  onClick={() => onDelete(trans.idTransacao)}
+                  className="text-red-500 hover:text-red-400 p-1"
+                  title="Excluir transação"
+                >
+                  <Trash2 size={18} />
+                </button>
+              )}
             </div>
           </li>
         ))}

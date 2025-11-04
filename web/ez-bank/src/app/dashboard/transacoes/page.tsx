@@ -86,7 +86,19 @@ export default function TransacoesPage() {
   return (
     <>
       <div className="w-full min-h-screen bg-gradient-to-b from-black to-green-800 text-white p-8">
+        
+        {/* CABEÇALHO RESTAURADO COM O BOTÃO */}
         <header className="flex justify-between items-center mb-12">
+          <h1 className="text-zinc-300 text-3xl font-bold">
+            Minhas Transações
+          </h1>
+          <button
+            onClick={() => setIsModalOpen(true)}
+            className="flex items-center gap-2 bg-green-800 text-white p-2 rounded-lg hover:bg-green-700"
+          >
+            <PlusCircle size={20} />
+            Nova Transação
+          </button>
         </header>
 
         <section>
@@ -94,11 +106,13 @@ export default function TransacoesPage() {
           {erro && <p className="text-red-400">{erro}</p>}
           
           {!isLoading && !erro && (
+            // A prop 'onDelete' que adicionamos continua aqui
             <TransacaoList transacoes={transacoes} onDelete={handleDelete} />
           )}
         </section>
       </div>
 
+      {/* O Modal continua funcionando */}
       <AddTransacaoModal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
