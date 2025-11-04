@@ -3,10 +3,8 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { PlusCircle } from "lucide-react";
-import TransacaoList from "@/components/TransacaoList"; // 1. IMPORTE O NOVO COMPONENTE
+import TransacaoList from "@/components/TransacaoList"; 
 import AddTransacaoModal from "../../../../components/AddTransacaoModal";
-
-// Interface Transacao
 interface Transacao {
   idTransacao: number;
   dataTransacao: string;
@@ -61,20 +59,34 @@ export default function TransacoesPage() {
     }
   }, [router]);
 
+  const handleDelete = async (id: number) => {
+    if (!window.confirm("Tem certeza que deseja excluir esta transação? O valor será estornado da conta.")) {
+      return;
+    }
+    
+    setErro(null);
+    try {
+      const response = await fetch(`http://localhost:8080/api/transacoes/${id}`, { 
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        const userId = localStorage.getItem("userId");
+        if (userId) await fetchTransacoes(userId); 
+      } else {
+        const erroData = await response.json();
+        throw new Error(erroData.message || "Falha ao deletar transação.");
+      }
+    } catch (error) {
+      if (error instanceof Error) setErro(error.message);
+      else setErro("Não foi possível conectar ao servidor.");
+    }
+  };
+
   return (
     <>
       <div className="w-full min-h-screen bg-gradient-to-b from-black to-green-800 text-white p-8">
         <header className="flex justify-between items-center mb-12">
-          <h1 className="text-zinc-300 text-3xl font-bold">
-            Minhas Transações
-          </h1>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="flex items-center gap-2 bg-green-800 text-white p-2 rounded-lg hover:bg-green-700"
-          >
-            <PlusCircle size={20} />
-            Nova Transação
-          </button>
         </header>
 
         <section>
@@ -82,8 +94,7 @@ export default function TransacoesPage() {
           {erro && <p className="text-red-400">{erro}</p>}
           
           {!isLoading && !erro && (
-
-            <TransacaoList transacoes={transacoes} />
+            <TransacaoList transacoes={transacoes} onDelete={handleDelete} />
           )}
         </section>
       </div>

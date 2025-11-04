@@ -1,6 +1,7 @@
 "use client";
 
-import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
+// 1. Importe o ícone de lixeira
+import { ArrowDownCircle, ArrowUpCircle, Trash2 } from "lucide-react";
 
 interface Transacao {
   idTransacao: number;
@@ -18,13 +19,14 @@ interface Transacao {
 
 interface TransacaoListProps {
   transacoes: Transacao[]; 
+  onDelete: (id: number) => void; 
 }
 
 const formatCurrency = (value: number) => {
   return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 }
 
-export default function TransacaoList({ transacoes }: TransacaoListProps) {
+export default function TransacaoList({ transacoes, onDelete }: TransacaoListProps) {
   
   if (transacoes.length === 0) {
     return <p>Nenhuma transação encontrada.</p>;
@@ -46,11 +48,21 @@ export default function TransacaoList({ transacoes }: TransacaoListProps) {
                 <p className="text-sm text-zinc-400">{trans.conta.documento ? trans.conta.documento : `Conta ID: ${trans.conta.id}`}</p>
               </div>
             </div>
-            <div className="text-right">
-              <p className={`font-bold ${trans.tipo.toUpperCase() === 'ENTRADA' ? 'text-green-500' : 'text-red-500'}`}>
-                {trans.tipo.toUpperCase() === 'ENTRADA' ? '+' : '-'} {formatCurrency(trans.valor)}
-              </p>
-              <p className="text-sm text-zinc-400">{trans.dataTransacao}</p>
+            
+            <div className="flex items-center gap-4"> 
+              <div className="text-right">
+                <p className={`font-bold ${trans.tipo.toUpperCase() === 'ENTRADA' ? 'text-green-500' : 'text-red-500'}`}>
+                  {trans.tipo.toUpperCase() === 'ENTRADA' ? '+' : '-'} {formatCurrency(trans.valor)}
+                </p>
+                <p className="text-sm text-zinc-400">{trans.dataTransacao}</p>
+              </div>
+              <button
+                onClick={() => onDelete(trans.idTransacao)} 
+                className="text-red-500 hover:text-red-400 p-1"
+                title="Excluir transação"
+              >
+                <Trash2 size={18} />
+              </button>
             </div>
           </li>
         ))}
