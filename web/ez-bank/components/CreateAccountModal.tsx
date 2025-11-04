@@ -67,7 +67,6 @@ export default function CreateAccountModal({ isOpen, onClose, onSave, tipoContaP
         onSave(); // Avisa a página "Perfil" que a conta foi salva
       } else {
         const erroData = await response.json();
-        // A API já nos protege de duplicatas
         setErro(erroData.message || "Falha ao criar conta.");
       }
     } catch (error) {
@@ -83,7 +82,7 @@ export default function CreateAccountModal({ isOpen, onClose, onSave, tipoContaP
   return (
     // Fundo escuro do modal
     <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-      {/* Container do Modal */}
+      {/* Container do Modal  */}
       <div className="bg-zinc-900 text-white p-8 rounded-lg shadow-lg w-full max-w-md">
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">

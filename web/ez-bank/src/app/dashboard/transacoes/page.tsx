@@ -6,7 +6,7 @@ import { PlusCircle } from "lucide-react";
 import TransacaoList from "@/components/TransacaoList"; // 1. IMPORTE O NOVO COMPONENTE
 import AddTransacaoModal from "../../../../components/AddTransacaoModal";
 
-// ... (Interface Transacao) ...
+// Interface Transacao
 interface Transacao {
   idTransacao: number;
   dataTransacao: string;

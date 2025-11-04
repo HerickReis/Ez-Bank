@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { ArrowDownCircle, ArrowUpCircle } from "lucide-react";
 import TransacaoList from "@/components/TransacaoList";
 
 interface Conta {
