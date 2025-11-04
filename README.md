@@ -91,7 +91,14 @@ Com ambos os servidores (backend e frontend) em execução (Seguindo os passos d
     4. Após se registrar, o sistema irá direcioná-lo para criar sua primeira conta (Física ou Jurídica) na página `/createAccountPage`.
 
     5. om o usuário e a conta criados, volte para a página de login (`/loginPage`), insira suas credenciais e acesse o dashboard.
-    
+
+
+Caso queira apenas explorar você pode utilizar um **usuário já cadastrado:**
+
+    email: teste.fintech@ezbank.teste
+    senha: Teste123.
+
+
 ## Funcionalidades
 
 
