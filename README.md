@@ -182,5 +182,5 @@ Ez-Bank-Final-Project/
 
 ## Autor
 
-**Herick Reis - RM563259:**
+**Herick Reis**
 Desenvolvido como parte do curso de **Análise e Desenvolvimento de Sistemas — FIAP**
