@@ -33,7 +33,7 @@ Antes de iniciar, certifique-se de ter os seguintes softwares instalados:
 
 - **Java JDK 21:** necessário para executar o back-end (Spring Boot).
 - **Node.js:** inclui o npm, necessário para rodar o front-end (Next.js).
-- **Acesso à rede FIAP:** o back-end se conecta a uma instância Oracle hospedada na infraestrutura da faculdade.
+- **Acesso à rede FIAP:** o back-end (originalmente se conecta a uma instância Oracle hospedada na infraestrutura da faculdade) mas pode se conectar em qualquer instância.
 
 ---
 
