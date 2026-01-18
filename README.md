@@ -58,7 +58,7 @@ apps/api/src/main/resources/application.properties
 
 Crie um arquivo `.env` baseado no `.env.example` e configure as variáveis:
 
-> Poder ser necessário, configurar as variáveis de ambiente na IDE, para isso pode seguir o tutorial deste [link](https://education-launchcode-org.translate.goog/gis-devops/configurations/02-environment-variables-intellij/index.html?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=sge)
+> Poder ser necessário configurar as variáveis de ambiente na IDE, para isso pode seguir o tutorial deste [link](https://education-launchcode-org.translate.goog/gis-devops/configurations/02-environment-variables-intellij/index.html?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=sge)
 
 
 ```
