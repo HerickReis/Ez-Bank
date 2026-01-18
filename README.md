@@ -55,13 +55,19 @@ O arquivo de configuração está localizado em:
 apps/api/src/main/resources/application.properties
 ```
 
-Credenciais de acesso (exclusivas para entrega acadêmica):
+
+Crie um arquivo `.env` baseado no `.env.example` e configure as variáveis:
+
+> Poder ser necessário, configurar as variáveis de ambiente na IDE, para isso pode seguir o tutorial deste [link](https://education-launchcode-org.translate.goog/gis-devops/configurations/02-environment-variables-intellij/index.html?_x_tr_sl=en&_x_tr_tl=pt&_x_tr_hl=pt&_x_tr_pto=sge)
+
 
 ```
-URL: jdbc:oracle:thin:@oracle.fiap.com.br:1521:orcl
-Username: RM563259
-Password: 020206
+- BANK_NAME
+- DB_URL
+- DB_USER
+- DB_PASSWORD
 ```
+
 
 > O Spring Data JPA, configurado via `pom.xml`, gerencia automaticamente a criação das tabelas.
 > Nenhum script DDL adicional é necessário.
@@ -116,15 +122,7 @@ Com ambos os servidores (front-end e back-end) ativos:
 2. Clique em **“Acesse sua conta”** e, em seguida, em **“Criar uma conta”** para acessar a página `/registerPage`.
 3. Após o registro, crie sua primeira conta **Física ou Jurídica** em `/createAccountPage`.
 4. Retorne à tela de login (`/loginPage`), insira suas credenciais e acesse o **Dashboard**.
-
-Para facilitar o acesso use as credenciais de teste ja cadastrado:
-
-```
-Email: teste.fintech@ezbank.teste
-Senha: Teste123.
-```
-
-    5. om o usuário e a conta criados, volte para a página de login (`/loginPage`), insira suas credenciais e acesse o dashboard.
+5. Com o usuário e a conta criados, volte para a página de login (`/loginPage`), insira suas credenciais e acesse o dashboard.
     
 ## Funcionalidades
 
@@ -167,18 +165,17 @@ Senha: Teste123.
 Ez-Bank-Final-Project/
 │
 ├── apps/
-│   ├── api/          → Back-end (Spring Boot)
-│   └── web/ez-bank/  → Front-end (Next.js)
-│
+│   ├── api/ → Back-end (Spring Boot)
+├── web/
+|   ├── ez-bank/  → Front-end (Next.js)
 └── README.md
 ```
-
 ---
 
 ## Observações
 
 - Projeto desenvolvido exclusivamente para **fins acadêmicos (FIAP)**.
-- As credenciais e o banco Oracle utilizados são **de uso restrito**.
+- As credenciais originais e o banco Oracle utilizados são **de uso restrito** (protegidos por variáveis de ambiente).
 - O código segue boas práticas de organização e estrutura modular **full stack**.
 
 ---
