@@ -1,11 +1,12 @@
-# Ez-Bank — Projeto Final FIAP
-
+# EzBank
 > Projeto acadêmico desenvolvido como parte do curso de **Análise e Desenvolvimento de Sistemas** na [FIAP](https://www.fiap.com.br/).
 >
 > O **Ez-Bank** é uma aplicação **full stack** que simula um sistema bancário digital, permitindo o cadastro de usuários, criação de contas (PF/PJ), controle de categorias e registro de transações financeiras.
 
 ---
-
+<p align="center">
+<img src="web/ez-bank/public/logo.svg">
+</p>
 <p align="center">
   <img src="https://img.shields.io/badge/Java-21-orange" alt="Java 21" />
   <img src="https://img.shields.io/badge/Spring%20Boot-3.5.7-green" alt="Spring Boot" />
